@@ -19,8 +19,11 @@ def homepage():
 
         if form.validate_on_submit():
                 if bool(User.query.filter_by(author=form.author.data).first()):
-                        print('User already exists in database')
-                        #link message to user
+                        user = User.query.filter_by(author=form.author.data).first()
+                        message = Messages(message=form.message.data, author = user)
+                        db.session.add(message)
+                        db.session.commit()
+                        print(f'{form.author.data}: {form.message.data} ')
                 else:
                         user = User(author=form.author.data)
                         message = Messages(message=form.message.data, author = user)
