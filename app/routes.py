@@ -1,9 +1,26 @@
 from flask import render_template, flash, redirect
 from app import myapp_obj
 from app.forms import MessageForm
+from app.models import User, Messages
+from app import db
 
-@myapp_obj.route('/')
+db.create_all()
+
+@myapp_obj.route('/', methods = ['GET', 'POST'])
 def homepage():
         form = MessageForm()
-        posts = {'author': 'ford'} #TEST CODE
-        return render_template('homepage.html', post = posts, form=form)
+        posts = []
+##        posts = [{'author': 'ford',
+##                  'message': 'Hello world'},
+##                 {'author': 'miguel',
+##                  'message': 'Bye world'}
+##
+##                 ]#TEST CODE
+
+        if form.validate_on_submit():
+##                user = User(author=form.author.data)
+##                message = Messages(message=form.message.data)
+##                db.session.add(user, message)
+##                db.session.commit()
+                print(f'{form.author.data}: {form.message.data} ')
+        return render_template('homepage.html', posts = posts, form=form)
