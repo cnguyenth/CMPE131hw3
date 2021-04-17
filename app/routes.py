@@ -18,10 +18,13 @@ def homepage():
 ##                 ]#TEST CODE
 
         if form.validate_on_submit():
-                user = User(author=form.author.data)
-                message = Messages(message=form.message.data)
-                db.session.add(user)
-                db.session.add(message)
-                db.session.commit()
-                print(f'{form.author.data}: {form.message.data} ')
+                if bool(User.query.filter_by(author=form.author.data).first()):
+                        print('User already exists in database')
+                else:
+                        user = User(author=form.author.data)
+                        message = Messages(message=form.message.data)
+                        db.session.add(user)
+                        db.session.add(message)
+                        db.session.commit()
+                        print(f'{form.author.data}: {form.message.data} ')
         return render_template('homepage.html', posts = posts, form=form)
