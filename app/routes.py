@@ -20,11 +20,17 @@ def homepage():
         if form.validate_on_submit():
                 if bool(User.query.filter_by(author=form.author.data).first()):
                         print('User already exists in database')
+                        #link message to user
                 else:
                         user = User(author=form.author.data)
-                        message = Messages(message=form.message.data)
+                        message = Messages(message=form.message.data, author = user)
                         db.session.add(user)
                         db.session.add(message)
                         db.session.commit()
                         print(f'{form.author.data}: {form.message.data} ')
+
+            # output all messages
+            # create a list of dictionaries with the following structure
+            # [{'author':'carlos', 'message':'Yo! Where you at?!'},
+            #  {'author':'Jerry', 'message':'Home. You?'}]
         return render_template('homepage.html', posts = posts, form=form)
