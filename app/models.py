@@ -25,6 +25,10 @@ class User(db.Model):
     def __repr__(self):
         """
         Decides format for when this class is printed
+
+        Returns
+        -------
+            self.author (str) : prints the author
         """
         return '{}'.format(self.author)
     #        return f'<User {self.author}>'
@@ -52,6 +56,10 @@ class Messages(db.Model):
     def __repr(self):
         """
         Decides format for when this class is printed
+
+        Returns
+        -------
+            self.body (str) : prints the message
         """
         return '<{}>'.format(self.body)
     #        return '<Message: {}>'.format(self.body)
