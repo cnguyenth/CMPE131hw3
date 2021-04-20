@@ -8,6 +8,17 @@ db.create_all()
 
 @myapp_obj.route('/', methods = ['GET', 'POST'])
 def homepage():
+        """
+        Adds all data entered into form into database and a list of dictionaries.
+        
+        Parameters
+        ----------
+                None
+
+        Returns
+        -------
+                render_template: passes data necessary for the html file     
+        """
         form = MessageForm()
 
         if form.validate_on_submit():
@@ -16,16 +27,14 @@ def homepage():
                         message = Messages(message=form.message.data, author = user)
                         db.session.add(message)
                         db.session.commit()
-                        #print(f'{form.author.data}: {form.message.data} ')
                 else:
                         user = User(author=form.author.data)
                         message = Messages(message=form.message.data, author = user)
                         db.session.add(user)
                         db.session.add(message)
                         db.session.commit()
-                        #print(f'{form.author.data}: {form.message.data} ')
 
-        posts = [{'author': 'carlos',
+        posts = [{'author': 'Carlos',
                   'message': 'Yo! Where you at?!'},
                  
                  {'author': 'Jerry',
@@ -35,14 +44,6 @@ def homepage():
         post = Messages.query.all()
         for p in post:
                 posts.append({'author': p.author, 'message': p.message})
-##                newDict = [{'author': p.author, 'message': p.message}]
-##                posts.append(newDict)
-
-
-            # output all messages
-            # create a list of dictionaries with the following structure
-            # [{'author':'carlos', 'message':'Yo! Where you at?!'},
-            #  {'author':'Jerry', 'message':'Home. You?'}]
 
         print(posts)
         return render_template('homepage.html', posts = posts, form=form)
